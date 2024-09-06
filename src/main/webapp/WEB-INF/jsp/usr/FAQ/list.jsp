@@ -1,17 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="${board.code }"></c:set>
+<c:set var="pageTitle" value="FAQ"></c:set>
 <%@ include file="../common/head.jspf"%>
 
+
+
+
 <hr />
+
+<div>
+<a class="btn btn-secondary" href="./write">WRITE</a>
+</div>
+
 
 <section class="mt-24 text-xl px-4">
 	<div class="mx-auto">
 
 		<div class="mb-4 flex">
+			<div>${FAQsCount }개</div>
 			<div class="flex-grow"></div>
 			<form action="">
-				<input type="hidden" name="boardId" value="${param.boardId }" />
 				<div class="flex">
 					<select class="select select-sm select-bordered
 						max-w-xs" name="searchKeywordTypeCode"
@@ -20,9 +28,8 @@
 						<option value="body">내용</option>
 						<option value="title,body">제목+내용</option>
 						<option value="nickname">작성자</option>
-					</select>
-					<label class="ml-3 input input-bordered input-sm flex w-full">
-						<input class="w-full" type="text" placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
+					</select> <label class="ml-3 input input-bordered input-sm flex items-center gap-2"> <input type="text"
+						placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
 						<button type="submit">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
     <path fill-rule="evenodd"
@@ -46,18 +53,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="article" items="${articles}">
+				<c:forEach var="faq" items="${faqs}">
 					<tr class="hover">
-						<td style="text-align: center;">${article.id}</td>
-						<td style="text-align: center;">${article.regDate.substring(0,10)}</td>
-						<td style="text-align: center;">
-							<a class="hover:underline" href="detail?id=${article.id}">${article.title}</a>
-						</td>
-						<td style="text-align: center;">${article.extra__writer}</td>
+						<td style="text-align: center;">${faq.id}</td>
+						<td style="text-align: center;">${faq.regDate.substring(0,10)}</td>
+						<td style="text-align: center;"><a class="hover:underline" href="detail?id=${faq.id}">${faq.title}</a></td>
+						<td style="text-align: center;">${faq.extra__writer}</td>
 					</tr>
 				</c:forEach>
 
-				<c:if test="${empty articles}">
+				<c:if test="${empty faqs}">
 					<tr>
 						<td colspan="4" style="text-align: center;">게시글이 없습니다</td>
 					</tr>

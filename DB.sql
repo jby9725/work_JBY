@@ -45,25 +45,29 @@ CREATE TABLE board (
       delDate DATETIME COMMENT '삭제 날짜'
 );
 
-## 게시판(board) 테스트 데이터 생성
-INSERT INTO board
-SET regDate = NOW(),
-updateDate = NOW(),
-`code` = 'FAQ',
-`name` = 'FAQ';
+CREATE TABLE FAQ (
+    `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `regDate` DATETIME NOT NULL,
+    `updateDate` DATETIME NOT NULL,
+    `memberId` INT(10) NOT NULL, 
+    `title` VARCHAR(50) NOT NULL,
+    `body` TEXT NOT NULL
+);
 
+## 게시판(board) 테스트 데이터 생성
 INSERT INTO board
 SET regDate = NOW(),
 updateDate = NOW(),
 `code` = 'FREE',
 `name` = '자유';
 
+
 -- 문자열 붙이기 + 랜덤 수 출력
 INSERT INTO article
 SET regDate = NOW(),
     updateDate = NOW(),
     memberId = 2,
-    boardId = 2,
+    boardId = 1,
     title = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
     `body` = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
 
@@ -71,7 +75,7 @@ INSERT INTO article
 SET regDate = NOW(),
     updateDate = NOW(),
     memberId = 2,
-    boardId = 2,
+    boardId = 1,
     title = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
     `body` = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
 
@@ -79,9 +83,34 @@ INSERT INTO article
 SET regDate = NOW(),
     updateDate = NOW(),
     memberId = 2,
-    boardId = 2,
+    boardId = 1,
     title = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
     `body` = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+
+
+## FAQ 테스트 데이터 생성
+
+INSERT INTO FAQ
+SET regDate = NOW(),
+    updateDate = NOW(),
+    memberId = 2,
+    title = CONCAT('답변', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
+    `body` = CONCAT('답변 내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+
+INSERT INTO FAQ
+SET regDate = NOW(),
+    updateDate = NOW(),
+    memberId = 2,
+    title = CONCAT('답변', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
+    `body` = CONCAT('답변 내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+
+INSERT INTO FAQ
+SET regDate = NOW(),
+    updateDate = NOW(),
+    memberId = 2,
+    title = CONCAT('답변', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
+    `body` = CONCAT('답변 내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+
 
 
 ## 회원 테스트 데이터 생성
@@ -132,13 +161,12 @@ email = 'goast@gmail.com';
 
 ###(INIT 끝)
 ##########################################
-
 ## 게시글 테스트 데이터 대량 생성
 INSERT INTO article
 (
     regDate, updateDate, memberId, boardId, title, `body`
 )
-SELECT NOW(), NOW(), FLOOR(RAND() * 2) + 2, CEILING(RAND() * 3), CONCAT('제목__', RAND()), CONCAT('내용__', RAND())
+SELECT NOW(), NOW(), FLOOR(RAND() * 2) + 2, 1, CONCAT('제목__', RAND()), CONCAT('내용__', RAND())
 FROM article;
 
 ##########################################
@@ -153,11 +181,8 @@ FROM `member`;
 SELECT *
 FROM `board`;
 
+SELECT *
+FROM FAQ;
+
 -- 코멘트 포함해서 `member` 테이블의 정보 보기
 SHOW FULL COLUMNS FROM `member`;
-
--- 마지막에 추가된 데이터의 아이디
-SELECT LAST_INSERT_ID();
-
--- 1부터 100까지 랜덤 수
-SELECT CEILING(RAND() * 100);
